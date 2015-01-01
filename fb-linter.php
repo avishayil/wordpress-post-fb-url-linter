@@ -76,7 +76,7 @@ class fb_linter {
 	    $title = $post->post_title;
 	    $permalink = get_permalink( $ID );
 
-		include_once ("facebooksdk.php");
+		include_once ("lib/facebooksdk.php");
 		$result = url_linter($permalink, $this->settings->options['fb_id'], $this->settings->options['fb_secret']);
 
 	    $notice = sprintf ('Congratulations, %s! Your article “%s” has been published and url-linted.' . "\n\n", $name, $title );

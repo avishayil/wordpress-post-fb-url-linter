@@ -80,8 +80,9 @@ class FB_Linter_Settings {
 	function js_includes() {
 		// Needed to allow metabox layout and close functionality.
 		wp_enqueue_script( 'postbox' );
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'fb-linter', FB_LINTER_URL . 'js/fb-linter.js', array( 'jquery' ));
 	}
-
 
 	/*
 		Sanitize our plugin settings array as needed.
@@ -146,7 +147,8 @@ class FB_Linter_Settings {
                     ?>
                     </div>
                 </div>
-
+                <span id="info1" style="color: #ff0000"></span><br/>
+                <span id="info2" style="color: #ff0000"></span>
 				<p>
 				<input type="submit" class="button button-primary" name="save_options" value="<?php esc_attr_e('Save Options'); ?>" />
 				</p>
@@ -214,7 +216,6 @@ class FB_Linter_Settings {
         <input id="fb_secret" style="width:50%;"  type="text" name="<?php echo $this->get_field_name( 'fb_secret' ); ?>" value="<?php echo esc_attr( $this->get_field_value( 'fb_secret' ) ); ?>" />
 		<?php
 	}
-
 
 } // end class
 endif;
