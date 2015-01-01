@@ -3,7 +3,7 @@
 Plugin Name: Facebook URL Linter for Posts
 Plugin URI: http://www.geektime.co.il
 Description: This Plugin allows you to send any published or updated post to facebook scraper
-Version: 0.1
+Version: 0.2
 Author: Avishay Bassa
 Author URI: http://www.geektime.co.il
 */
@@ -15,7 +15,7 @@ if (!function_exists('is_admin')) {
     exit();
 }
 
-define( 'FB_LINTER_VERSION', '0.1' );
+define( 'FB_LINTER_VERSION', '0.2' );
 define( 'FB_LINTER_RELEASE_DATE', date_i18n( 'F j, Y', '1420115770' ) );
 define( 'FB_LINTER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'FB_LINTER_URL', plugin_dir_url( __FILE__ ) );

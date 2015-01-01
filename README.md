@@ -40,5 +40,6 @@ It uses WordPress <a href="http://codex.wordpress.org/Plugin_API/Action_Referenc
 
 <h2>Changelog</h2>
 
+<strong>V0.2</strong> - Organize libraries and improve Active mechanism for safety.
 <strong>V0.1</strong> - First version.
 
