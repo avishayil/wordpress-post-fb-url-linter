@@ -148,7 +148,8 @@ class FB_Linter_Settings {
                     </div>
                 </div>
                 <span id="info1" style="color: #ff0000"></span><br/>
-                <span id="info2" style="color: #ff0000"></span>
+                <span id="info2" style="color: #ff0000"></span><br/>
+                <span id="info3"></span><br/>
 				<p>
 				<input type="submit" class="button button-primary" name="save_options" value="<?php esc_attr_e('Save Options'); ?>" />
 				</p>
