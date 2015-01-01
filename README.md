@@ -1,12 +1,9 @@
-Wordpress Post FB URL Linter
+WordPress Post FB URL Linter
 ============================
-
-This plugin allows you
 
 <h2>Description</h2>
 
-This Plugin allows you to send any published or updated post to facebook scraper
-
+This Plugin allows you to send any published or updated post to Facebook scraper
 
 <h2>Installation</h2>
 
