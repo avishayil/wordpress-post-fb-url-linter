@@ -13,7 +13,12 @@ This Plugin allows you to send any published or updated post to Facebook scraper
 4. Click on <strong>Install</strong>.
 5. Activate the plugin through the 'Plugins' menu in WordPress
 6. There should be an additional Facebook URL Linter sub-menu under the Settings option of your Dashboard.
-7. Clicking on the Facebook URL Linter sub-menu will cause shiba-example-page.php to be executed. 
+7. Clicking on the Facebook URL Linter sub-menu will cause `fb-linter.php` to be executed. 
+
+<h2>Usage</h2>
+
+1. Go to <a href="http://developers.facebook.com/">developers.facebook.com</a> and grab your App ID & App Secret from your app Dashboard, by selecting your Facebook app from the Apps panel.
+2. Paste the App ID & App Secret on the plugin settings page inside your WordPress blog.
 
 <h2>Frequently Asked Questions</h2>
 
