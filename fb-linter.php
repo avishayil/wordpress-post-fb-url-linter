@@ -38,8 +38,10 @@ class fb_linter {
 		add_action('init', array($this,'init') );
 		add_action('admin_init', array($this,'admin_init') );
 		add_action('admin_menu', array($this,'admin_menu') );
-		add_action( 'publish_post', array($this,'post_published_notification'), 10, 2 );
-		add_action( 'post_updated', array($this,'post_published_notification'), 10, 2 );
+		if ($this->settings->options['fb_active'] == "on") {
+			add_action( 'publish_post', array($this,'post_published_notification'), 10, 2 );
+			add_action( 'post_updated', array($this,'post_published_notification'), 10, 2 );
+		}
 
 		register_activation_hook( __FILE__, array($this,'activate') );
 		register_deactivation_hook( __FILE__, array($this,'deactivate') );

@@ -13,6 +13,7 @@ class FB_Linter_Settings {
 		array(
 			  	'fb_id' => 'Enter your facebook app id here',
 			  	'fb_secret' => 'Enter your facebook app id here',
+			  	'fb_active' => '',
 				);
 	var $pagehook, $page_id, $settings_field, $options;
 
@@ -42,6 +43,8 @@ class FB_Linter_Settings {
 		add_settings_section('fb_main', '',
 			array($this, 'main_section_text'), 'fb_linter_settings_page');
 
+		add_settings_field('fb_active', 'Active',
+			array($this, 'render_fb_active'), 'fb_linter_settings_page', 'fb_main');
 		add_settings_field('fb_id', 'Facebook App ID',
 			array($this, 'render_fb_id'), 'fb_linter_settings_page', 'fb_main');
 		add_settings_field('fb_secret', 'Facebook App Secret',
@@ -84,6 +87,7 @@ class FB_Linter_Settings {
 		Sanitize our plugin settings array as needed.
 	*/
 	function sanitize_theme_options($options) {
+		$options['fb_active'] = stripcslashes($options['fb_active']);
 		$options['fb_id'] = stripcslashes($options['fb_id']);
 		$options['fb_secret'] = stripcslashes($options['fb_secret']);
 		return $options;
@@ -184,6 +188,19 @@ class FB_Linter_Settings {
 
 	function main_section_text() {
 		echo '<p>Enter your Facebook App ID & App Secret here:</p>';
+	}
+
+	function render_fb_active() {
+		$checked = "";
+		if ($this->options['fb_active'] == 'on' ){
+			?>
+			<input id="fb_active" type="checkbox" name="<?php echo $this->get_field_name( 'fb_active' ); ?>" checked />
+			<?php
+		} else {
+			?>
+			<input id="fb_active" type="checkbox" name="<?php echo $this->get_field_name( 'fb_active' ); ?>" />
+			<?php
+		}
 	}
 
 	function render_fb_id() {
