@@ -9,7 +9,7 @@ Stable tag: 0.3.1
 
 This Plugin allows you to send any published or updated post to Facebook scraper
 
-== Usage ==
+<strong>Usage</strong>
 
 1. Go to <a href="http://developers.facebook.com/">developers.facebook.com</a> and grab your App ID & App Secret from your app Dashboard, by selecting your Facebook app from the Apps panel.
 2. Paste the App ID & App Secret on the plugin settings page inside your WordPress blog.
