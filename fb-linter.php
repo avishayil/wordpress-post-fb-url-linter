@@ -39,8 +39,9 @@ class fb_linter {
 		add_action('admin_init', array($this,'admin_init') );
 		add_action('admin_menu', array($this,'admin_menu') );
 		if ($this->settings->options['fb_active'] == "on") {
-			add_action( 'publish_post', array($this,'post_published_notification'), 10, 2 );
-			add_action( 'post_updated', array($this,'post_published_notification'), 10, 2 );
+			add_action( 'publish_post', array($this,'post_published_notification'), 10, 1 );
+			add_action( 'post_updated', array($this,'post_published_notification'), 10, 1 );
+			add_action( 'admin_notices', array($this, 'post_admin_notice'), 10, 1);
 		}
 
 		register_activation_hook( __FILE__, array($this,'activate') );
@@ -72,17 +73,29 @@ class fb_linter {
 	function admin_menu() {
 	}
 
-	function post_published_notification( $ID, $post ) {
+	function post_published_notification( $ID ) {
+		global $post;
 	    $title = $post->post_title;
 	    $permalink = get_permalink( $ID );
 
 		include_once ("lib/facebooksdk.php");
 		$result = url_linter($permalink, $this->settings->options['fb_id'], $this->settings->options['fb_secret']);
-
-	    $notice = sprintf ('Congratulations, %s! Your article “%s” has been published and url-linted.' . "\n\n", $name, $title );
-	    $notice .= sprintf( 'View Lint: %s', "https://developers.facebook.com/tools/debug/og/object?q=".urlencode($permalink));
+		session_start();
+		$_SESSION[$permalink] = "linted";
 	}
-
+	function post_admin_notice( $ID ) {
+		global $post;
+	    $title = $post->post_title;
+	    $permalink = get_permalink( $ID );
+		$screen = get_current_screen();
+		if( ('post' == $screen->post_type) && ('edit' == $screen->parent_base) && (isset($_SESSION[$permalink])) && (is_admin()) ) {
+			echo '<div class="error"><p>Congratulations! Your article <a href="'. $permalink . '">' . $title . '</a> has been published and url-linted.';
+			$linturl = "https://developers.facebook.com/tools/debug/og/object?q=" . $permalink;
+	    	echo ' <a target="_blank" href="'. $linturl .'">View Lint</a></p></div>';
+	    	session_unset();
+	    	session_destroy();
+	    }
+	}
 } // end class
 endif;
 
