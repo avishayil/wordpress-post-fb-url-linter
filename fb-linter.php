@@ -39,8 +39,10 @@ class fb_linter {
 		add_action('admin_init', array($this,'admin_init') );
 		add_action('admin_menu', array($this,'admin_menu') );
 		if ($this->settings->options['fb_active'] == "on") {
-			add_action( 'publish_post', array($this,'post_published_notification'), 10, 1 );
-			add_action( 'post_updated', array($this,'post_published_notification'), 10, 1 );
+			add_action('future_to_publish', array($this,'post_published_notification'), 10, 1 );
+			add_action('new_to_publish', array($this,'post_published_notification'), 10, 1 );
+			add_action('draft_to_publish', array($this,'post_published_notification'), 10, 1 );
+			// add_action('publish_post', array($this,'post_published_notification'), 10, 1 );
 			add_action( 'admin_notices', array($this, 'post_admin_notice'), 10, 1);
 		}
 

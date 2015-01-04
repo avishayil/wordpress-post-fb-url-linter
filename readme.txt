@@ -3,7 +3,7 @@ Contributors: Aivshay Bassa
 Tags: url linter, url, linter, facebook, debugger, debug, post
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 0.3
+Stable tag: 0.3.1
 
 == Description ==
 
@@ -41,8 +41,15 @@ It uses WordPress <a href="http://codex.wordpress.org/Plugin_API/Action_Referenc
 
 == Screenshots ==
 
-<img src="facebook-url-linter-screenshot.png" />
+1. Use the admin panel to configure Facebook App ID & Secret
 
 == Changelog ==
+
+
+<strong>V0.3.1</strong> - Changed the events where the request is occuring to be more specific.
+
+<strong>V0.3</strong> - Updated the facebook request to be more reliable, even when error is returned form the debugger.
+
+<strong>V0.2</strong> - Organize libraries and improve Active mechanism for safety.
 
 <strong>V0.1</strong> - First version.
