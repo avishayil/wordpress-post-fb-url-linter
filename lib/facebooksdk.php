@@ -9,20 +9,17 @@ function url_linter($url,$appid,$appsecret) {
        'cookie' => true,
   ));
 
+  do {
     $response = $facebook->api('/','POST',array(
         'id'=>$url,
         'scrape'=>'true'
     ));
-    
     if (isset($response['updated_time'])) {
       return $response['updated_time'];
+      break;
     } else {
-      return false;
+      sleep(15);
     }
-}
-
-if (isset($_GET['linturl'])) {
-  $result = url_linter($_GET['linturl'], $_GET['appid'], $_GET['appsecret']);
-  echo $result;
+  } while (!isset($response['updated_time']) );
 }
 ?>

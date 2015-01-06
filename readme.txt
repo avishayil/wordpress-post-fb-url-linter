@@ -3,7 +3,7 @@ Contributors: Aivshay Bassa
 Tags: url linter, url, linter, facebook, debugger, debug, post
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 0.4
+Stable tag: 0.3.1
 
 == Description ==
 
@@ -45,7 +45,6 @@ It uses WordPress <a href="http://codex.wordpress.org/Plugin_API/Action_Referenc
 
 == Changelog ==
 
-<strong>V0.4</strong> - Added scheduled posts support
 
 <strong>V0.3.1</strong> - Changed the events where the request is occuring to be more specific.
 

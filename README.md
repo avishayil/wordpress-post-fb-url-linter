@@ -40,8 +40,6 @@ It uses WordPress <a href="http://codex.wordpress.org/Plugin_API/Action_Referenc
 
 <h2>Changelog</h2>
 
-<strong>V0.4</strong> - Added scheduled posts support
-
 <strong>V0.3.1</strong> - Changed the events where the request is occuring to be more specific.
 
 <strong>V0.3</strong> - Updated the facebook request to be more reliable, even when error is returned form the debugger.
