@@ -42,13 +42,19 @@ class FB_Linter_Settings {
 		*/
 		add_settings_section('fb_main', '',
 			array($this, 'main_section_text'), 'fb_linter_settings_page');
-
 		add_settings_field('fb_active', 'Active',
 			array($this, 'render_fb_active'), 'fb_linter_settings_page', 'fb_main');
 		add_settings_field('fb_id', 'Facebook App ID',
 			array($this, 'render_fb_id'), 'fb_linter_settings_page', 'fb_main');
 		add_settings_field('fb_secret', 'Facebook App Secret',
 			array($this, 'render_fb_secret'), 'fb_linter_settings_page', 'fb_main');
+
+		add_settings_section('notifications_main', '',
+			array($this, 'notifications_section_text'), 'fb_linter_settings_page');
+		add_settings_field('notifications_active', 'Active',
+			array($this, 'render_notifications_active'), 'fb_linter_settings_page', 'notifications_main');
+		add_settings_field('notifications_email', 'Email Address For Notifications',
+			array($this, 'render_notifications_email'), 'fb_linter_settings_page', 'notifications_main');
 	}
 
 	function admin_menu() {
@@ -215,6 +221,29 @@ class FB_Linter_Settings {
 	function render_fb_secret() {
 		?>
         <input id="fb_secret" style="width:50%;"  type="text" name="<?php echo $this->get_field_name( 'fb_secret' ); ?>" value="<?php echo esc_attr( $this->get_field_value( 'fb_secret' ) ); ?>" />
+		<?php
+	}
+
+	function notifications_section_text() {
+		echo '<p>Enter your email address for notifications about linted posts:</p>';
+	}
+
+	function render_notifications_active() {
+		$checked = "";
+		if ($this->options['notifications_active'] == 'on' ){
+			?>
+			<input id="notifications_active" type="checkbox" name="<?php echo $this->get_field_name( 'notifications_active' ); ?>" checked />
+			<?php
+		} else {
+			?>
+			<input id="notifications_active" type="checkbox" name="<?php echo $this->get_field_name( 'notifications_active' ); ?>" />
+			<?php
+		}
+	}
+
+	function render_notifications_email() {
+		?>
+        <input id="notifications_email" style="width:50%;"  type="text" name="<?php echo $this->get_field_name( 'notifications_email' ); ?>" value="<?php echo esc_attr( $this->get_field_value( 'notifications_email' ) ); ?>" />
 		<?php
 	}
 

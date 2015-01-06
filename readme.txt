@@ -3,7 +3,7 @@ Contributors: Aivshay Bassa
 Tags: url linter, url, linter, facebook, debugger, debug, post
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 0.4
+Stable tag: 0.5
 
 == Description ==
 
@@ -44,6 +44,8 @@ It uses WordPress <a href="http://codex.wordpress.org/Plugin_API/Action_Referenc
 1. Use the admin panel to configure Facebook App ID & Secret
 
 == Changelog ==
+
+<strong>V0.5</strong> - Added email notifications support
 
 <strong>V0.4</strong> - Added scheduled posts support
 

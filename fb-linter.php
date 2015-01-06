@@ -3,7 +3,7 @@
 Plugin Name: Facebook URL Linter for Posts
 Plugin URI: http://www.geektime.co.il
 Description: This Plugin allows you to send any published or updated post to facebook scraper
-Version: 0.4
+Version: 0.5
 Author: Avishay Bassa
 Author URI: http://www.geektime.co.il
 */
@@ -15,7 +15,7 @@ if (!function_exists('is_admin')) {
     exit();
 }
 
-define( 'FB_LINTER_VERSION', '0.4' );
+define( 'FB_LINTER_VERSION', '0.5' );
 define( 'FB_LINTER_RELEASE_DATE', date_i18n( 'F j, Y', '1420115770' ) );
 define( 'FB_LINTER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'FB_LINTER_URL', plugin_dir_url( __FILE__ ) );
@@ -40,10 +40,9 @@ class fb_linter {
 		add_action('admin_menu', array($this,'admin_menu') );
 		if ($this->settings->options['fb_active'] == "on") {
 			add_action( 'publish_post', array(&$this,'post_published_notification'), 10, 1);
+			// add_action( 'publish_to_publish', array(&$this,'post_published_notification'), 10, 1);
 			add_action( 'future_post',  array(&$this, 'on_post_scheduled'), 10, 2 );
-			// add_action( 'activate_cron', array(&$this,'post_published_notification'), 10, 1);
 			add_action( 'admin_notices', array(&$this, 'post_admin_notice'), 10);
-
 		}
 
 		register_activation_hook( __FILE__, array($this,'activate') );
@@ -83,14 +82,18 @@ class fb_linter {
 		$result = url_linter($permalink, $this->settings->options['fb_id'], $this->settings->options['fb_secret']);
 		if ($result) {
 			session_start();
-			$_SESSION[$permalink] = "linted";			
+			$_SESSION[$permalink] = "linted";
+			if (($this->settings->options['notifications_active'] == "on") && ($this->settings->options['notifications_email'] != "")) {			
+		    	$headers = '[Geektime] Your Post have been linted.' . "\r\n";
+		    	wp_mail($this->settings->options['notifications_email'], '[Geektime] Your published post ' . $title . ' have been linted', 'The Post ' . $title . ' with the permalink ' . $permalink . ' was linted. <br/>Result: ' . $result . '<br/><a href="https://developers.facebook.com/tools/debug/og/object?q=' . $permalink . '"><strong>View Lint</strong></a>', $headers);
+			}
 		}
 	}
 
 	function on_post_scheduled( $ID, $post ) {
 		$title = $post->post_title;
 		if ($post->post_status == 'future') {
-			wp_schedule_single_event(get_post_time('U', true , $post->ID) + 120, 'activate_cron', array($post->ID,$this->settings->options['fb_id'], $this->settings->options['fb_secret']));
+			wp_schedule_single_event(get_post_time('U', true , $post->ID) + 120, 'activate_cron', array($post->ID,$this->settings->options['fb_id'], $this->settings->options['fb_secret'], $this->settings->options['notifications_active'], $this->settings->options['notifications_email']));
 		}
 	}
 
@@ -115,12 +118,14 @@ global $fb_linter;
 if (class_exists("fb_linter") && !$fb_linter) {
     $fb_linter = new fb_linter();
 }
-function post_notification($post_id,$fbid,$fbpwd) {
+function post_notification($post_id,$fbid,$fbpwd,$isnotify,$notifemail) {
     $title = get_the_title($post_id);
     $permalink = get_permalink($post_id);
     $result = file_get_contents(FB_LINTER_URL . "lib/facebooksdk.php?linturl=". $permalink . "&appid=" . $fbid . "&appsecret=" . $fbpwd);
-    $headers = '[Geektime] Your Post have been linted.' . "\r\n";
-    wp_mail('avishay.il@gmail.com', 'Post ' . $title . ' was linted', 'The Post ' . $title . ' with the permalink ' . $permalink . ' was linted. <br/>Result: ' . $result . '<br/><a href="https://developers.facebook.com/tools/debug/og/object?q=' . $permalink . '"><strong>View Lint</strong></a>', $headers);
+    if (($isnotify == "on") && ($notifemail != "")) {
+    	$headers = 'Message From Geektime' . "\r\n";
+    	wp_mail($notifemail, '[Geektime] Your scheduled post ' . $title . ' have been linted', 'The scheduled Post ' . $title . ' with the permalink ' . $permalink . ' was linted. <br/>Result: ' . $result . '<br/><a href="https://developers.facebook.com/tools/debug/og/object?q=' . $permalink . '"><strong>View Lint</strong></a>', $headers);
+    }
 }
-add_action( 'activate_cron', 'post_notification', 10, 3);
+add_action( 'activate_cron', 'post_notification', 10, 5);
 ?>
