@@ -61,7 +61,7 @@ class FB_Linter_Settings {
 		if ( ! current_user_can('update_plugins') )
 			return;
 
-		// Add a new submenu to the standard Settings panel
+		// Add a submenu to the standard Settings panel
 		$this->pagehook = $page =  add_options_page(
 			__('Facebook URL Linter', 'fb_linter'), __('Facebook URL Linter', 'fb_linter'),
 			'administrator', $this->page_id, array($this,'render') );
@@ -69,7 +69,7 @@ class FB_Linter_Settings {
 		// Executed on-load. Add all metaboxes.
 		add_action( 'load-' . $this->pagehook, array( $this, 'metaboxes' ) );
 
-		// Include js, css, or header *only* for our settings page
+		// Include js, css, or header *only* for settings page
 		add_action("admin_print_scripts-$page", array($this, 'js_includes'));
 //		add_action("admin_print_styles-$page", array($this, 'css_includes'));
 		add_action("admin_head-$page", array($this, 'admin_head') );
@@ -91,7 +91,7 @@ class FB_Linter_Settings {
 	}
 
 	/*
-		Sanitize our plugin settings array as needed.
+		Sanitize plugin settings array.
 	*/
 	function sanitize_theme_options($options) {
 		$options['fb_active'] = stripcslashes($options['fb_active']);
@@ -190,8 +190,6 @@ class FB_Linter_Settings {
 
 	/*
 		WordPress settings rendering functions
-
-		ONLY NEEDED if we are using wordpress to render our controls (do_settings_sections)
 	*/
 
 

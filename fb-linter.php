@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Facebook URL Linter for Posts
-Plugin URI: http://www.geektime.co.il
-Description: This Plugin allows you to send any published or updated post to facebook scraper
+Plugin URI: http://www.geektime.com
+Description: This Plugin allows you to send any published or updated post to facebook scraper. This Plugin was developed by Geektime's dev team for internal purposes only, and was shared for your convenience. We do not provide any support services for this plugin.
 Version: 0.5
-Author: Avishay Bassa
-Author URI: http://www.geektime.co.il
+Author: Avishay Bassa, Geektime
+Author URI: http://www.geektime.com
 */
 
 // don't load directly
@@ -15,21 +15,23 @@ if (!function_exists('is_admin')) {
     exit();
 }
 
+// define some constants for the plugin
 define( 'FB_LINTER_VERSION', '0.5' );
 define( 'FB_LINTER_RELEASE_DATE', date_i18n( 'F j, Y', '1420115770' ) );
 define( 'FB_LINTER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'FB_LINTER_URL', plugin_dir_url( __FILE__ ) );
 
-
+// define the plugin class
 if (!class_exists("fb_linter")) :
 
 class fb_linter {
 	var $settings, $options_page;
 
+	// construct the plugin
 	function __construct() {
 
 		if (is_admin()) {
-			// Load example settings page
+			// Load settings page
 			if (!class_exists("FB_Linter_Settings"))
 				require(FB_LINTER_DIR . 'fb-linter-settings.php');
 			$this->settings = new FB_Linter_Settings();
@@ -40,7 +42,6 @@ class fb_linter {
 		add_action('admin_menu', array($this,'admin_menu') );
 		if ($this->settings->options['fb_active'] == "on") {
 			add_action( 'publish_post', array(&$this,'post_published_notification'), 10, 1);
-			// add_action( 'publish_to_publish', array(&$this,'post_published_notification'), 10, 1);
 			add_action( 'future_post',  array(&$this, 'on_post_scheduled'), 10, 2 );
 			add_action( 'admin_notices', array(&$this, 'post_admin_notice'), 10);
 		}
@@ -50,12 +51,12 @@ class fb_linter {
 	}
 
 	/*
-		Enter our plugin activation code here.
+		Plugin activation code here.
 	*/
 	function _activate() {}
 
 	/*
-		Enter our plugin deactivation code here.
+		Plugin deactivation code here.
 	*/
 	function _deactivate() {}
 
@@ -74,15 +75,20 @@ class fb_linter {
 	function admin_menu() {
 	}
 
+	// declare the function for post direct publish
 	function post_published_notification($post_id) {
 	    $title = get_the_title($post_id);
 	    $permalink = get_permalink($post_id);
 
+	    // call the facebook sdk and check if lint is successful
 		include_once ("lib/facebooksdk.php");
 		$result = url_linter($permalink, $this->settings->options['fb_id'], $this->settings->options['fb_secret']);
 		if ($result) {
+			//start the session for displaying success message on post edit screen
 			session_start();
 			$_SESSION[$permalink] = "linted";
+
+			// send an email to the admins if notifications are active with the result
 			if (($this->settings->options['notifications_active'] == "on") && ($this->settings->options['notifications_email'] != "")) {			
 		    	$headers = '[Geektime] Your Post have been linted.' . "\r\n";
 		    	wp_mail($this->settings->options['notifications_email'], '[Geektime] Your published post ' . $title . ' have been linted', 'The Post ' . $title . ' with the permalink ' . $permalink . ' was linted. <br/>Result: ' . $result . '<br/><a href="https://developers.facebook.com/tools/debug/og/object?q=' . $permalink . '"><strong>View Lint</strong></a>', $headers);
@@ -90,6 +96,7 @@ class fb_linter {
 		}
 	}
 
+	// build the cron on post schedule
 	function on_post_scheduled( $ID, $post ) {
 		$title = $post->post_title;
 		if ($post->post_status == 'future') {
@@ -97,6 +104,7 @@ class fb_linter {
 		}
 	}
 
+	// display admin notice when post is published, if session started
 	function post_admin_notice() {
 		global $post;
 	    $title = $post->post_title;
@@ -113,11 +121,13 @@ class fb_linter {
 } // end class
 endif;
 
-// Initialize our plugin object.
+// Initialize the plugin object.
 global $fb_linter;
 if (class_exists("fb_linter") && !$fb_linter) {
     $fb_linter = new fb_linter();
 }
+
+// declare the function for scheduled post publish
 function post_notification($post_id,$fbid,$fbpwd,$isnotify,$notifemail) {
     $title = get_the_title($post_id);
     $permalink = get_permalink($post_id);

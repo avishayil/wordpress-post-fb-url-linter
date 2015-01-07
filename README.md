@@ -3,7 +3,7 @@ WordPress Post FB URL Linter
 
 <h2>Description</h2>
 
-This Plugin allows you to send any published or updated post to Facebook scraper
+This Plugin allows you to send any published or updated post to facebook scraper. This Plugin was developed by Geektime's dev team for internal purposes only, and was shared for your convenience. We do not provide any support services for this plugin.
 
 <h2>Installation</h2>
 

@@ -1,5 +1,5 @@
 === Facebook URL Linter for Posts Plugin ===
-Contributors: Aivshay Bassa
+Contributors: Avishay Bassa, Geektime
 Tags: url linter, url, linter, facebook, debugger, debug, post
 Requires at least: 3.0
 Tested up to: 4.1
@@ -7,7 +7,7 @@ Stable tag: 0.5
 
 == Description ==
 
-This Plugin allows you to send any published or updated post to Facebook scraper
+This Plugin allows you to send any published or updated post to facebook scraper. This Plugin was developed by Geektime's dev team for internal purposes only, and was shared for your convenience. We do not provide any support services for this plugin.
 
 <strong>Usage</strong>
 
