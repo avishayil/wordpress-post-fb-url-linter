@@ -147,7 +147,7 @@ function plugin_settings_link( $links, $file ) {
 	//make sure it is our plugin we are modifying
 	if ( $file == $plugin_file ) {
 		$settings_link = '<a href="' .
-			admin_url( 'options-general.php?page=fb-linter' ) . '">' .
+			admin_url( 'options-general.php?page=fb_linter' ) . '">' .
 			__( 'Settings', 'content-split-pro' ) . '</a>';
 		array_unshift( $links, $settings_link );
 	}
