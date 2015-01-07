@@ -138,4 +138,19 @@ function post_notification($post_id,$fbid,$fbpwd,$isnotify,$notifemail) {
     }
 }
 add_action( 'activate_cron', 'post_notification', 10, 5);
+
+// Add settings link on plugins page
+add_filter( "plugin_action_links", 'plugin_settings_link', 10, 4 );
+
+function plugin_settings_link( $links, $file ) {
+	$plugin_file = 'facebook-url-linter-for-posts/fb-linter.php';
+	//make sure it is our plugin we are modifying
+	if ( $file == $plugin_file ) {
+		$settings_link = '<a href="' .
+			admin_url( 'options-general.php?page=fb-linter' ) . '">' .
+			__( 'Settings', 'content-split-pro' ) . '</a>';
+		array_unshift( $links, $settings_link );
+	}
+	return $links;
+}
 ?>
